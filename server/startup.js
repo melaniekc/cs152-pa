@@ -1,11 +1,11 @@
 Meteor.startup(function(){
-	if (Colors.find({}).count()==0){
-		// create some initial data for the collection...
-		Colors.insert({theColor:"red", hex:"ff0000"});
 
-		Colors.insert({theColor:"green", hex:"ff0000"});
-		Colors.insert({theColor:"blue", hex:"ff0000"});
-		Colors.insert({theColor:"aqua", hex:"ff0000"});
-		Colors.insert({theColor:"yellow", hex:"ff0000"});
-	}
+	if (Activities.find({}).count()==0){
+
+		Activities.insert({time:"09:30-10:30", activity: "Morning Meeting"});
+		Activities.insert({time:"12:00-13:00", activity: "Lunch"});
+		Activities.insert({time:"13:30-15:30", activity: "Presentation", notes:"reminder at 13:15: \"go to Room 315\""});
+		Activities.insert({time:"16:00-?", activity: "Finish report", notes:"reminder at 16:00: \"report due today at 10\""});
+		Activities.insert({time:"15:30-16:00", activity: "Workout"});
+	}	
 });

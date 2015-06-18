@@ -1,0 +1,30 @@
+<template name="schedule">
+<h1>My Schedule</h1>
+
+<h4>Today is <b>{{date}}</b>.</h4>
+<h4 id="time">The time is <b>{{time}}</b></h4>
+<hr/>
+
+Here is your schedule for today:
+<br>
+<table class="table table-condensed">
+	<thead>
+		<tr><th>Time</th><th>Event</th><th>Notes?</th></tr>
+	</thead>
+	<tbody>
+	{{#each activity}}
+	  {{> schedrow}}
+	{{/each}}
+	</tbody>
+</table>
+
+</template>
+
+
+<template name="schedrow">
+   <tr>
+   	  <td>{{time}}</td>
+   	  <td>{{activity}}</td>
+   	  <td>{{notes}}</td>
+   </tr>
+</template>

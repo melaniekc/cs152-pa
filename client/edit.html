@@ -1,0 +1,34 @@
+<template name="edit">
+<h1>Add to your daily schedule here</h1>
+
+{{#if currentUser}}
+	{{> eventform}}
+	<br>
+	<hr/>
+	<br>
+	<!-- Add a new task.
+	{{> taskform}}
+	<hr/> -->
+
+{{else}}
+	<h2><small>You must be logged in to add to your schedule</small></h2>
+{{/if}}
+
+</template>
+
+<template name= "eventform">
+	<br/><h3>Create a new event</h3><br/>
+	<form id="new_event">
+		Event: <input type="text" name="evt">
+		Start time: <input type="text" name="start">
+		End time: <input type="text" name="end">
+		<br><br><br>
+		Reminder?: <select name="reminder"> 
+  			<option value="yes" >Yes</option>
+ 			<option value="no" >No</option>
+		</select>
+		Time: <input type="text" name="remtime">
+		Message: <input type="text" name="mssg">
+		<input type="submit">
+	</form>
+</template>	
