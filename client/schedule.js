@@ -107,7 +107,7 @@ function startDictation(event) {
   final_transcript = "";
   recognition.lang = 'en-US';
   recognition.start();
-  final_span.innerHTML = "";
+  final_span.innerHTML = "Say 'add event' to begin";
 }
 
 Template.schedule.helpers(
