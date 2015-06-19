@@ -2,10 +2,19 @@
 <h1>My Schedule</h1>
 
 <h4>Today is <b>{{date}}</b>.</h4>
-<h4 id="time">The time is <b>{{time}}</b></h4>
+<h4 id="clock">The time is <b>{{time}} </b></h4>
+<button type="button" class="btn btn-info btn-xs" id="refresh">Refresh</button>
+<button type="button" class="btn btn-info btn-xs" id="add">Add event</button>
+<button type="button" class="btn btn-info btn-xs" id="voice">Voice commands</button>
+<br><hr/>
+<div id="results" class="bg-info">
+	<br>
+	<span id="final_span"></span>
+	<span id="message"></span>
+</div>
 <hr/>
 
-Here is your schedule for today:
+<h5><b>Here is your schedule for today:</b></h5>
 <br>
 <table class="table table-condensed">
 	<thead>
@@ -21,7 +30,7 @@ Here is your schedule for today:
 </template>
 
 
-<template name="schedrow">
+<template name="schedrow" id="table-row">
    <tr>
    	  <td>{{time}}</td>
    	  <td>{{activity}}</td>
