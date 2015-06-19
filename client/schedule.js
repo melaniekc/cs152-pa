@@ -130,3 +130,7 @@ Template.schedule.events({
 	}
 });
 
+Template.schedrow.events({
+	'click .activity-delete-icon': function(){Activities.remove(this._id);}
+})
+
