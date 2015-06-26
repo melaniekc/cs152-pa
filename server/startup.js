@@ -10,7 +10,9 @@ Meteor.startup(function(){
 	}
 	if (Tasks.find({}).count()==0){
 
-		Tasks.insert({name:"Finish PA3", dueAt:"20:00", group:"CS152"});
+		Tasks.insert({name:"Finish PA3", dueAt:"16:00", group:"CS152"});
+		Tasks.insert({name:"NB readings", dueAt:"20:00", group:"CS152"});
+		Tasks.insert({name:"Chrome blog post", dueAt:"20:00", group:"CS115"});
 		Tasks.insert({name:"Buy tickets", dueAt:"-", group:"other"});
 	}
 });

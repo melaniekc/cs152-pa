@@ -9,7 +9,7 @@ Here is your to do list for today!
 
 <table class="table table-condensed">
 	<thead>
-		<tr><th>Task</th><th>Due</th><th>Category</th></tr>
+		<tr><th>Task</th><th>Due</th><th>Category</th><th>Completed?</th></tr>
 	</thead>
 	<tbody id="tasktable">
 	{{#each task}}
@@ -34,20 +34,20 @@ Here is your to do list for today!
  			<option value="sortcat">category</option>
  			<option value="sortalph">name</option>
 		</select>
-		<input type="submit">
+		<input type="submit" value="Go">
 	</form>
 </template>
 
 <template name="taskrow">
-	<tr><td>{{name}}</td><td>{{dueAt}}</td>
-	<td>{{group}}</td></tr>
+	<tr><td width="400px">{{name}}</td><td>{{dueAt}}</td><td>{{group}}</td><td width="100px" style="text-align: right">
+	<span class="glyphicon glyphicon-ok task-complete-icon" aria-hidden="true"></span></td></tr>
 </template>
 
 <template name = "taskform">
 	<br/><h3>Add to this list</h3><br/>
 	<form id="addtdl">
 		Task name: <input type="text" name="task">
-		Due at: <input type="text" name="due">
+		Due at: <input type="text" name="due" placeholder="e.g. 18:00 for 6:00 PM">
 		Category: <input type="text" name="category">
 		<br/>
 		<input type="submit">

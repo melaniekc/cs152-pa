@@ -1,5 +1,5 @@
 Template.todolist.helpers({
-   task: function(){return Tasks.find({})},
+   task: function(){return Tasks.find({},{sort: Session.get('order')})},
 }),
 
 Template.todolist.events({
@@ -8,11 +8,11 @@ Template.todolist.events({
 
 		var sortby = event.target.sorts.value;
 		if (sortby=="sortdue"){
-			task = function(){return Tasks.find({},{sort:{dueAt:1}})};
-		} if (sortby=="sortcat"){
-			task = function(){return Tasks.find({},{sort:{group:1}})};
-		} if (sortby=="sortalph"){
-			task = function(){return Tasks.find({},{sort:{name:1}})};
+			return Session.set('order',{dueAt:1})};
+		if (sortby=="sortcat"){
+			return Session.set('order',{group:1})};
+		if (sortby=="sortalph"){
+			return Session.set('order',{name:1})
 		};
 	},
 	"submit #addtdl": function(event){
@@ -24,4 +24,8 @@ Template.todolist.events({
 
 		Tasks.insert({name:taskname, dueAt:due, group:category});
 	}
-})	
+}),
+
+Template.taskrow.events({
+	'click .task-complete-icon': function(){Tasks.remove(this._id);}
+})
