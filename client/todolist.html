@@ -1,36 +1,55 @@
 <template name="todolist">
-<h1>Chat</h1>
+<h1>Tasks</h1>
 
 {{#if currentUser}}
 
-Here is our chat:
-<hr/>
-<dl>
-	{{#each chat}}
-  		{{> chatrow}}
-	{{/each}}
-</dl>
+Here is your to do list for today!
 
-{{> chatform}}
+{{> sort}}
+
+<table class="table table-condensed">
+	<thead>
+		<tr><th>Task</th><th>Due</th><th>Category</th></tr>
+	</thead>
+	<tbody id="tasktable">
+	{{#each task}}
+	  {{> taskrow}}
+	{{/each}}
+	</tbody>
+</table>
+
+{{> taskform}}
 
 {{else}}
-	<h2>You must be logged in to see the chats</h2>
+	<h4>You must be logged in to add tasks</h4>
 {{/if}}
 
 </template>
 
-
-<template name="chatrow">
-   <dt><h1><small><small>{{username}}</small></small></h1></dt>
-   <dt><small>{{createdAt}}</small></dt>
-   <dd>{{message}}</dd>
+<template name="sort">
+	<h3>Sort tasks by</h3>
+	<form id="sortby">
+		<select name="sorts"> 
+  			<option value="sortdue">due date</option>
+ 			<option value="sortcat">category</option>
+ 			<option value="sortalph">name</option>
+		</select>
+		<input type="submit">
+	</form>
 </template>
 
-<template name = "chatform">
-	<br/><h3>Enter your message!</h3><br/>
-	<form id="sendmessage">
-		<!-- username: <input type="text" name="username"> -->
-		message: <input type="text" name="message"><br/>
+<template name="taskrow">
+	<tr><td>{{name}}</td><td>{{dueAt}}</td>
+	<td>{{group}}</td></tr>
+</template>
+
+<template name = "taskform">
+	<br/><h3>Add to this list</h3><br/>
+	<form id="addtdl">
+		Task name: <input type="text" name="task">
+		Due at: <input type="text" name="due">
+		Category: <input type="text" name="category">
+		<br/>
 		<input type="submit">
 	</form>
 </template>	

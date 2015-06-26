@@ -1,16 +1,27 @@
-
 Template.todolist.helpers({
-   chat: function(){return Chats.find({},{sort:{createdAt:1},limit:4})}
-})
+   task: function(){return Tasks.find({})},
+}),
 
 Template.todolist.events({
-	"submit #sendmessage": function(event){
+	"submit #sortby": function(event){
 		event.preventDefault();
 
-		var message = event.target.message.value;
-		console.log(JSON.stringify(message));
+		var sortby = event.target.sorts.value;
+		if (sortby=="sortdue"){
+			task = function(){return Tasks.find({},{sort:{dueAt:1}})};
+		} if (sortby=="sortcat"){
+			task = function(){return Tasks.find({},{sort:{group:1}})};
+		} if (sortby=="sortalph"){
+			task = function(){return Tasks.find({},{sort:{name:1}})};
+		};
+	},
+	"submit #addtdl": function(event){
+		event.preventDefault();
 
-		Chats.insert({username:Meteor.user().emails[0].address, createdAt:new Date(), message:message});
+		var taskname = event.target.task.value;
+		var due = event.target.due.value;
+		var category = event.target.category.value;
 
+		Tasks.insert({name:taskname, dueAt:due, group:category});
 	}
 })	

@@ -1,6 +1,4 @@
-// Meteor.publish("theProfiles",function(){return Profiles.find();});
-// Meteor.publish("theIPs",function(){return IPAddresses.find();});
-// Meteor.publish("theColors",function(){return Colors.find();});
+Meteor.publish("toDoList",function(){return Tasks.find();});
 Meteor.publish("theSchedule",function(){return Activities.find();});
 
 
