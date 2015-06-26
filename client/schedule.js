@@ -1,6 +1,6 @@
 var today = new Date();
 
-function clock(event) {
+Template.schedule.rendered = function clock(event) {
 	var now = new Date();
 	document.getElementById("clock").innerHTML = "The time is <b>"+now.toLocaleTimeString()+"</b>";
 	setInterval(500);
