@@ -126,7 +126,7 @@ drawIt = draw;
 var running = false;
 var gamesnum = 0;
 
-Template.draw.events({
+Template.game.events({
 	"click #startgame": function(event){
 		console.log("pressed start");
 		if(!running) {
@@ -162,7 +162,7 @@ Template.draw.events({
 	}
 })
 
-Template.draw.rendered = function() {
+Template.game.rendered = function() {
 	document.getElementById("gameboard").addEventListener("mousemove", 
 		function(e){
 			if (running) {
