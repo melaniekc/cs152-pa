@@ -1,6 +1,7 @@
 var rounds=10;
-var bubbles=70;
+var bubbles=100;
 var level=1;
+var vel=20;
 
 function Bubble(x,y,r,c,vx,vy){
 	this.x=x;this.y=y;
@@ -22,9 +23,9 @@ BubbleNet.prototype.caught = function(f) {
 function distFromOrigin(x,y) { return Math.sqrt(x*x + y*y);}
 
 Bubble.prototype.update = function(dt){
-	if (this.x+this.r >= 348 || this.x-this.r <= 2){
+	if (this.x+this.r >= 349.5 || this.x-this.r <= 0.5){
 		this.vx = -this.vx; }
-	if (this.y+this.r >= 348 || this.y-this.r <= 2){
+	if (this.y+this.r >= 349.5 || this.y-this.r <= 0.5){
 		this.vy = -this.vy; }
 	this.x += this.vx*dt;
 	this.y += this.vy*dt;
@@ -53,13 +54,15 @@ BubbleModel.prototype.update = function(dt){
 	);
 }
 
-var createModel = function(){
+var createModel = function(vel){
 	theModel = new BubbleModel(350,350); // we just created the model!
 	for(var i=0; i<bubbles; i++){
-		var randx = Math.random()*150+30;
-		var randy = Math.random()*150+30;
-		var randvx = Math.random()*45+20;
-		var randvy = Math.random()*45+20;
+		var randx = Math.random()*250+50;
+		var randy = Math.random()*250+50;
+		var randvx = Math.random()*80+vel;
+		var randvy = Math.random()*80+vel;
+		var posx = (Math.random()<0.3)?-0.7:1;
+		var posy = (Math.random()<0.3)?-0.7:1;
 		var randc1 = (Math.random()<0.5)?"green":"purple";
 		var randc2 = (Math.random()<0.5)?"yellow":"orange";
 		var randc3 = (Math.random()<0.5)?"black":"blue";
@@ -67,13 +70,13 @@ var createModel = function(){
 		var randc_1 = (Math.random()<0.5)?randc1:randc2;
 		var randc_2 = (Math.random()<0.5)?randc3:randc4
 		var randc = (Math.random()<0.5)?randc_1:randc_2;;
-		var randr = Math.random()*26+5;
-		theModel.addBubble(new Bubble(randx,randy,randr,randc,randvx,randvy));
+		var randr = Math.random()*23+3;
+		theModel.addBubble(new Bubble(randx,randy,randr,randc,posx*randvx,posy*randvy));
 	}
 	var lastTime = (new Date()).getTime();
 }
 
-createModel();
+createModel(vel);
 
 function draw(){
 
@@ -98,8 +101,9 @@ function draw(){
 				if (num==bubbles){
 					running=false;
 					$("#round").html('<button id="newgame" class="btn active">Next round</button>');
-					bubbles+=15;
+					bubbles+=25;
 					level++;
+					vel+=20;
 				}
 				return;
 			};
@@ -143,6 +147,7 @@ Template.game.events({
 		}
 	},
 	"click #newgame": function(event){
+		if (running) { running=false; }
 		gamesnum++;
 		var roundsleft=rounds-gamesnum;
 		$("#rounds").html("Rounds played: "+gamesnum);
@@ -151,11 +156,11 @@ Template.game.events({
 			return;
 		};
 		running=true;
-		createModel();
+		createModel(vel);
 		draw();
 		gameLoop();
 		$("#startgame").html("Pause");
-		$("#round").html('<button id="newgame" class="btn disabled">-</button>');
+		$("#round").html('<button id="newgame" class="btn disabled">Restart</button>');
 		$("#mssg").html("You can play "+roundsleft+" more rounds, then get back to work!");
 		$("#popped").html("Bubbles popped: 0/"+bubbles);
 		$("#lvl").html("<b><i>Level "+level+"</i></b>");
@@ -166,8 +171,8 @@ Template.game.rendered = function() {
 	document.getElementById("gameboard").addEventListener("mousemove", 
 		function(e){
 			if (running) {
-				theModel.net.x = 220*e.pageX/gameboard.width - 0.1*gameboard.offsetLeft;
-				theModel.net.y = 220*e.pageY/gameboard.height - 0.1*gameboard.offsetTop;
+				theModel.net.x = e.pageX - gameboard.offsetLeft;
+    			theModel.net.y = e.pageY - gameboard.offsetTop;
 			}
 		}
 	);
