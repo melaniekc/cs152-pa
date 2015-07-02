@@ -2,6 +2,9 @@ var rounds=10;
 var bubbles=100;
 var level=1;
 var vel=20;
+var num=0;
+var total=0;
+var complete=false;
 
 function Bubble(x,y,r,c,vx,vy){
 	this.x=x;this.y=y;
@@ -55,6 +58,7 @@ BubbleModel.prototype.update = function(dt){
 }
 
 var createModel = function(vel){
+	console.log("created model");
 	theModel = new BubbleModel(350,350); // we just created the model!
 	for(var i=0; i<bubbles; i++){
 		var randx = Math.random()*250+50;
@@ -91,7 +95,7 @@ function draw(){
 	drawContext.stroke();drawContext.stroke();drawContext.stroke();
 	drawContext.fillStyle=net.c;
 	drawContext.fill();
-	var num=0;
+	num=0;
 
 	_.each(theModel.bubbleList,
 		function(f) {
@@ -100,6 +104,7 @@ function draw(){
 				$("#popped").html("Bubbles popped: "+num+"/"+bubbles);
 				if (num==bubbles){
 					running=false;
+					complete=true;
 					$("#round").html('<button id="newgame" class="btn active">Next round</button>');
 					bubbles+=25;
 					level++;
@@ -125,7 +130,6 @@ function gameLoop(){
 	if (running) window.requestAnimationFrame(gameLoop);
 }
 
-
 drawIt = draw;
 var running = false;
 var gamesnum = 0;
@@ -138,16 +142,17 @@ Template.game.events({
 			lastTime = (new Date()).getTime();
 			gameLoop();
 			$("#startgame").html("Pause");
-			$("#round").html('<button id="newgame" class="btn disabled">Restart</button>');
+			$("#round").html('<button id="newgame" class="btn active">Restart</button>');
 			$("#lvl").html("<b><i>Level "+level+"</i></b>");
 		} else {
 			running=false;
 			$("#startgame").html("Resume");
-			$("#round").html('<button id="newgame" class="btn active">Restart</button>');
+			$("#round").html('<button id="newgame" class="btn disabled">Restart</button>');
 		}
 	},
 	"click #newgame": function(event){
-		if (running) { running=false; }
+		total +=num;
+		if (running && !complete) running=false;
 		gamesnum++;
 		var roundsleft=rounds-gamesnum;
 		$("#rounds").html("Rounds played: "+gamesnum);
@@ -155,17 +160,25 @@ Template.game.events({
 			$("#game").html("<br><h5>No games left for now... get back to <b><a href=\"/schedule\">work</a></b></h5>");
 			return;
 		};
-		running=true;
 		createModel(vel);
-		draw();
+		lastTime = (new Date()).getTime();
 		gameLoop();
 		$("#startgame").html("Pause");
-		$("#round").html('<button id="newgame" class="btn disabled">Restart</button>');
 		$("#mssg").html("You can play "+roundsleft+" more rounds, then get back to work!");
 		$("#popped").html("Bubbles popped: 0/"+bubbles);
 		$("#lvl").html("<b><i>Level "+level+"</i></b>");
-	}
-})
+		complete=false;
+		running=true;
+	},
+	"submit #sendscore": function(event){
+		event.preventDefault();
+		var name = event.target.name.value;
+		var lvl = level;
+		var score = total;
+		Scores.insert({name:name, level:lvl, score:score});
+		event.target.name.value="";
+	}	
+});
 
 Template.game.rendered = function() {
 	document.getElementById("gameboard").addEventListener("mousemove", 
@@ -177,3 +190,9 @@ Template.game.rendered = function() {
 		}
 	);
 }
+
+Template.game.helpers(
+  {
+	scores: function(){return Scores.find({},{sort:{level:-1,score:-1,name:1},limit:8});}
+  }
+);

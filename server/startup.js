@@ -15,4 +15,13 @@ Meteor.startup(function(){
 		Tasks.insert({name:"Chrome blog post", dueAt:"20:00", group:"CS115"});
 		Tasks.insert({name:"Buy tickets", dueAt:"-", group:"other"});
 	}
+	if (Scores.find({}).count()==0){
+
+		Scores.insert({name:"Melanie", level:"6", score:"542"});
+		Scores.insert({name:"abcdejd", level:"9", score:"963"});
+		Scores.insert({name:"joe", level:"2", score:"173"});
+		Scores.insert({name:"Melanie", level:"3", score:"272"});
+		Scores.insert({name:"Melanie", level:"1", score:"82"});
+		Scores.insert({name:":(", level:"1", score:"34"});
+	}
 });

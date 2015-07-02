@@ -1,6 +1,6 @@
 Meteor.publish("toDoList",function(){return Tasks.find();});
 Meteor.publish("theSchedule",function(){return Activities.find();});
-
+Meteor.publish("scoreboard",function(){return Scores.find();});
 
 Meteor.publish("userData", function () {
   if (this.userId) {

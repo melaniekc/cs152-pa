@@ -1,5 +1,5 @@
 <template name="game">
-	<center>
+<center>
 	<h3>Pop the bubbles</h3>
 	<div id="game">
 		<div class="row">
@@ -12,5 +12,36 @@
 		<h4 id="mssg">You can play 10 more rounds, then get back to work!</h4>
 		<canvas id="gameboard" width="350" height="350">Update your browser!</canvas>
 	</div>
-	</center>
+	<div id="leaderboard">
+	{{> scoreform}}
+	<h5><b>Leaderboard:</b></h5>
+	<br>	
+	<table class="table table-bordered table-condensed">
+		<thead>
+			<tr><th>Name</th><th>Highest Level</th><th>Score</th></tr>
+		</thead>
+		<tbody>
+		{{#each scores}}
+		  {{> lrow}}
+		{{/each}}
+		</tbody>
+	</table>
+	</div>
+</center>
+</template>
+
+<template name="lrow">
+   <tr>
+   	  <td>{{name}}</td>
+   	  <td>{{level}}</td>
+   	  <td>{{score}}</td>
+   </tr>
+</template>
+
+<template name= "scoreform">
+	<br/><h6>Submit your score</h6><br/>
+	<form id="sendscore">
+		Name: <input type="text" name="name">
+		<input type="submit">
+	</form>
 </template>
