@@ -1,10 +1,3 @@
-var today = new Date();
-
-function clock(event) {
-	var now = new Date();
-	document.getElementById("clock").innerHTML = "The time is <b>"+now.toLocaleTimeString()+"</b>";
-	setInterval(500);
-}
 
 var final_transcript = "";
 var mssg = "";
@@ -110,17 +103,23 @@ function startDictation(event) {
   final_span.innerHTML = "Say 'add event' to begin";
 }
 
+Meteor.setInterval(
+	function() {
+		Session.set("today", new Date());
+	},
+500);
+
 Template.schedule.helpers(
  {
    activity: function(){return Activities.find({},{sort:{time:1}})},
-   date: today.toDateString(),
-   time: today.toLocaleTimeString()
+   date: function(){return Session.get("today").toDateString()},
+   time: function(){return Session.get("today").toLocaleTimeString()}
  }
 );
 
 Template.schedule.events({
-	'click #refresh': function(event){
-		clock(event);
+	'click #tasks': function(event){
+		Router.go('todolist');
 	},
 	'click #add': function(event){
 		Router.go('edit');
